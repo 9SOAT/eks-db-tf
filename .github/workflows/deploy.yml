@@ -18,7 +18,9 @@ jobs:
   create_infra:
     name: terraform
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: ./infra
     steps:
       - name: Checkout
         uses: actions/checkout@v4
