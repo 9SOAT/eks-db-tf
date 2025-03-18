@@ -1,5 +1,5 @@
 resource "aws_vpc" "main" {
-  vpc_id = "vpc-0fb809c47cf21d64a"
+  id = "vpc-0fb809c47cf21d64a"
   cidr_block = "10.0.0.0/16"
 }
 
