@@ -80,6 +80,9 @@ O Terraform gerencia o deploy, o armazenamento no **S3**, permissões **IAM** e 
 └── .github/workflows/     
     ├── terraform.yaml    # CI/CD para deploy a na AWS quando um pull request é mergeado na main
     └── destroy.yaml      # Workflow para excluir o serviço na AWS
+├── docs/                 # Documentos
+    ├──  der.jpeg         # Diagrama de entidade e relacionamento da estrutura de banco de dados
+    ├──  Justificativa.md # Justificativa do banco de dados
 ├── terraform/            # Terraform para infraestrutura
     ├──  backend.tf       # Configuração
     ├──  main.tf          # Configuração
