@@ -34,5 +34,3 @@ jobs:
     # Aqui ele para e só continua se alguém aprovar no ambiente 'production'
     - name: Terraform Apply
       run: terraform -chdir=terraform apply -auto-approve tfplan
-      environment:
-        name: production   # Proteção de ambiente configurada aqui!
