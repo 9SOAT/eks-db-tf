@@ -1,0 +1,38 @@
+name: Terraform Pipeline - Destroy RDS
+
+on:
+  workflow_dispatch:  # Permite execução manual
+
+jobs:
+  terraform:
+    name: Terraform RDS Destruction
+    runs-on: ubuntu-latest
+
+    environment:
+      name: production   # Proteção de ambiente configurada aqui!
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: 1.7.0
+
+    - name: Terraform Init
+      run: terraform -chdir=terraform init
+
+    - name: Terraform Plan (Destroy)
+      run: terraform -chdir=terraform plan -destroy -out=tfplan
+
+    # A pipeline vai pausar até você aprovar manualmente a destruição
+    - name: Terraform Destroy
+      run: terraform -chdir=terraform apply -auto-approve tfplan
+      environment:
+        name: production
