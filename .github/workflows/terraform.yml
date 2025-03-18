@@ -1,7 +1,10 @@
 name: Terraform Pipeline - Create RDS
 
 on:
-  workflow_dispatch: # Permite execução manual
+  pull_request:
+    branches:
+      - main
+  #workflow_dispatch: # Permite execução manual
 
 jobs:
   terraform:
