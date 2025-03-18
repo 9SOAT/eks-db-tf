@@ -1,11 +1,11 @@
-name: Terraform Pipeline - Create RDS
+name: Terraform Pipeline - Destroy RDS
 
 on:
-  workflow_dispatch: # Permite execução manual
+  workflow_dispatch:  # Permite execução manual
 
 jobs:
   terraform:
-    name: Terraform RDS Deployment
+    name: Terraform RDS Destruction
     runs-on: ubuntu-latest
 
     environment:
@@ -28,11 +28,11 @@ jobs:
     - name: Terraform Init
       run: terraform -chdir=terraform init
 
-    - name: Terraform Plan
-      run: terraform -chdir=terraform plan -out=tfplan
+    - name: Terraform Plan (Destroy)
+      run: terraform -chdir=terraform plan -destroy -out=tfplan
 
-    # Aqui ele para e só continua se alguém aprovar no ambiente 'production'
-    - name: Terraform Apply
+    # A pipeline vai pausar até você aprovar manualmente a destruição
+    - name: Terraform Destroy
       run: terraform -chdir=terraform apply -auto-approve tfplan
       environment:
-        name: production   # Proteção de ambiente configurada aqui!
+        name: production
