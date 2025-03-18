@@ -1,22 +1,40 @@
-resource "aws_vpc" "main" {
+resource "aws_vpc" "labFIAP" {
   cidr_block = "10.0.0.0/16"
+
+  tags = {
+    Name        = "labFIAPVPC"
+    Environment = "Dev"
+    Owner = "Matheus"
+  }
 }
 
-resource "aws_subnet" "public" {
-  vpc_id                  = aws_vpc.main.id
+resource "aws_subnet" "publiclabFIAP" {
+  vpc_id                  = aws_vpc.labFIAP.id
   cidr_block              = "10.0.1.0/24"
   map_public_ip_on_launch = true
-  availability_zone       = "us-east-1a"
+  availability_zone       = "us-east-2a"
+
+  tags = {
+    Name        = "PublicSubnet"
+    Environment = "Dev"
+    Owner = "Matheus"
+  }
 }
 
-resource "aws_subnet" "private" {
-  vpc_id            = aws_vpc.main.id
+resource "aws_subnet" "privatelabFIAP" {
+  vpc_id            = aws_vpc.labFIAP.id
   cidr_block        = "10.0.2.0/24"
-  availability_zone = "us-east-1b"
+  availability_zone = "us-east-2b"
+
+  tags = {
+    Name        = "PrivateSubnet"
+    Environment = "Dev"
+    Owner = "Matheus"
+  }
 }
 
-resource "aws_security_group" "rds_sg" {
-  vpc_id = aws_vpc.main.id
+resource "aws_security_group" "rds_sglabFIAP" {
+  vpc_id = aws_vpc.labFIAP.id
 
   ingress {
     from_port   = 3306
@@ -24,25 +42,43 @@ resource "aws_security_group" "rds_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  tags = {
+    Name        = "RDS-SG"
+    Environment = "Dev"
+    Owner = "Matheus"
+  }
 }
 
-resource "aws_db_subnet_group" "rds_subnet_group" {
+resource "aws_db_subnet_group" "rds_subnet_grouplabFIAP" {
   name       = "rds-subnet-group"
-  subnet_ids = [aws_subnet.private.id,aws_subnet.public.id]
+  subnet_ids = [aws_subnet.privatelabFIAP.id, aws_subnet.publiclabFIAP.id]
+
+  tags = {
+    Name        = "RDS-Subnet-Group"
+    Environment = "Dev"
+    Owner = "Matheus"
+  }
 }
 
-resource "aws_db_instance" "postgres" {
+resource "aws_db_instance" "postgreslabFIAP" {
   identifier              = "postgres-cluster"
   allocated_storage       = 20
-  engine                 = "postgres"
-  engine_version         = "16.5"
-  instance_class         = "db.t3.micro"
-  storage_type           = "gp2"
-  db_name                = "gk_fiap"
-  username              = "var.username"
-  password              = "var.password"
-  publicly_accessible   = false
-  skip_final_snapshot   = true
-  vpc_security_group_ids = [aws_security_group.rds_sg.id]
-  db_subnet_group_name   = aws_db_subnet_group.rds_subnet_group.name
+  engine                  = "postgres"
+  engine_version          = "16.5"
+  instance_class          = "db.t3.micro"
+  storage_type            = "gp2"
+  db_name                 = "gk_fiap"
+  username                = "dbadmin"
+  password                = "mypassword"
+  publicly_accessible     = false
+  skip_final_snapshot     = true
+  vpc_security_group_ids  = [aws_security_group.rds_sglabFIAP.id]
+  db_subnet_group_name    = aws_db_subnet_group.rds_subnet_grouplabFIAP.name
+
+  tags = {
+    Name        = "PostgresDB"
+    Environment = "Dev"
+    Owner = "Matheus"
+  }
 }
