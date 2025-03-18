@@ -1,49 +1,36 @@
-name: Create Infra DB
+name: Terraform Pipeline - Create RDS
 
 on:
-  pull_request:
-    types: [ opened, synchronize, reopened ]
-  push:
-    branches:
-      - main
+  workflow_dispatch: # Permite execução manual
 
-env:
-  AWS_REGION: us-east-1
-
-permissions:
-  id-token: write   # This is required for requesting the JWT
-  contents: read    # This is required for actions/checkout
 jobs:
-
-  create_infra:
-    name: terraform
+  terraform:
+    name: Terraform RDS Deployment
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./infra
+
+    environment:
+      name: production   # Proteção de ambiente configurada aqui!
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-     
-      - name: "Configure AWS Credentials" 
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-region: us-east-1
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          
-      - name: Configurar Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: 1.10.5
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Inicializar Terraform
-        run: |
-          cd infra
-          terraform init -reconfigure
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: 1.7.0
 
-      - name: Aplicar Terraform (Deploy)
-        id: apply
-        run: |
-          cd infra
-          terraform apply -auto-approve
+    - name: Terraform Init
+      run: terraform -chdir=terraform init
+
+    - name: Terraform Plan
+      run: terraform -chdir=terraform plan -out=tfplan
+
+    # Aqui ele para e só continua se alguém aprovar no ambiente 'production'
+    - name: Terraform Apply
+      run: terraform -chdir=terraform apply -auto-approve tfplan
