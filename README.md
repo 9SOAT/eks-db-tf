@@ -1,6 +1,7 @@
-# Infra estrutura do banco de dados em postgress AWS.
 
-Este repositório contém uma infraestrutura como código (IaC) como parte da Fase 3 da Postech em Software Architecture da FIAP e realiza a criação do banco de dados em postgress com RDS.
+# Infra estrutura do banco de dados em postgress AWS.
+Este repositório contém uma infraestrutura como código (IaC) como parte da Fase 3 da Pós-tech em Software Architecture da FIAP. O projeto realiza a criação de um banco de dados PostgreSQL utilizando AWS RDS.
+
 ## ✳️ Sobre
 - [Justificativa](/docs/Justificativa.md)
 - [Diagrama de Entidade e Relacionado](/docs/der.jpeg)
@@ -81,6 +82,9 @@ O Terraform gerencia o deploy, o armazenamento no **S3**, permissões **IAM** e 
 └── .github/workflows/     
     ├── terraform.yaml    # CI/CD para deploy a na AWS quando um pull request é mergeado na main
     └── destroy.yaml      # Workflow para excluir o serviço na AWS
+├── docs/                 # Documentos
+    ├──  der.jpeg         # Diagrama de entidade e relacionamento da estrutura de banco de dados
+    ├──  Justificativa.md # Justificativa do banco de dados
 ├── terraform/            # Terraform para infraestrutura
     ├──  backend.tf       # Configuração
     ├──  main.tf          # Configuração
