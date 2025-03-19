@@ -1,4 +1,4 @@
-# Infra estrutura do banco de dados em postgress AWS
+# Infra estrutura do banco de dados em postgress AWS.
 
 Este repositório contém uma infraestrutura como código (IaC) como parte da Fase 3 da Postech em Software Architecture da FIAP e realiza a criação do banco de dados em postgress com RDS.
 ## ✳️ Sobre
