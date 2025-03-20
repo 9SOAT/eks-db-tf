@@ -30,7 +30,9 @@ jobs:
 
     - name: Set environment variables
       run: |
-          echo "TF_VAR_USERNAME=${{ secrets.USERNAME }}" >> $GITHUB_ENV
+        echo "TF_VAR_projectName=${{ secrets.DB_NAME }}" >> $GITHUB_ENV  
+        echo "TF_VAR_username=${{ secrets.USERNAME }}" >> $GITHUB_ENV
+        echo "TF_VAR_passdb=${{ secrets.PASSWORD }}" >> $GITHUB_ENV
 
     - name: Terraform Init
       run: terraform -chdir=terraform init
