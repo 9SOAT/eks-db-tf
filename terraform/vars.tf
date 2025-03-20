@@ -17,3 +17,8 @@ variable "dynamoName" {
   description = "The password for the RDS instance"
   type        = string  
 }
+
+variable "awsRegion" {
+  description = "The password for the RDS instance"
+  type        = string  
+}

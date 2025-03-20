@@ -12,7 +12,7 @@ resource "aws_subnet" "publiclabFIAP" {
   vpc_id                  = aws_vpc.labFIAP.id
   cidr_block              = "10.0.1.0/24"
   map_public_ip_on_launch = true
-  availability_zone       = "us-east-2a"
+  availability_zone       = var.awsRegion
 
   tags = {
     Name        = "PublicSubnet"
@@ -24,7 +24,7 @@ resource "aws_subnet" "publiclabFIAP" {
 resource "aws_subnet" "privatelabFIAP" {
   vpc_id            = aws_vpc.labFIAP.id
   cidr_block        = "10.0.2.0/24"
-  availability_zone = "us-east-2b"
+  availability_zone = var.awsRegion
 
   tags = {
     Name        = "PrivateSubnet"
