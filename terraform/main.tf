@@ -69,8 +69,8 @@ resource "aws_db_instance" "postgreslabFIAP" {
   instance_class          = "db.t3.micro"
   storage_type            = "gp2"
   db_name                 = var.projectName 
-  username                = var.username
-  password                = var.passdb
+  username                = var.rdsUser
+  password                = var.rdsPass
   publicly_accessible     = false
   skip_final_snapshot     = true
   vpc_security_group_ids  = [aws_security_group.rds_sglabFIAP.id]
