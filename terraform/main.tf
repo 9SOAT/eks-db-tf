@@ -68,9 +68,9 @@ resource "aws_db_instance" "postgreslabFIAP" {
   engine_version          = "16.5"
   instance_class          = "db.t3.micro"
   storage_type            = "gp2"
-  db_name                 = "gk_fiap"
-  username                = "dbadmin"
-  password                = "mypassword"
+  db_name                 = "fast_food"
+  username                = "tech-challange"
+  password                = "fiap2024!"
   publicly_accessible     = false
   skip_final_snapshot     = true
   vpc_security_group_ids  = [aws_security_group.rds_sglabFIAP.id]
@@ -80,5 +80,24 @@ resource "aws_db_instance" "postgreslabFIAP" {
     Name        = "PostgresDB"
     Environment = "Dev"
     Owner = "Matheus"
+  }
+}
+
+resource "aws_dynamodb_table" "users" {
+  name           = "fast-food-consumer"
+  billing_mode   = "PROVISIONED"
+  read_capacity  = 20
+  write_capacity = 20
+  hash_key       = "cpf"
+
+  attribute {
+    name = "cpf"
+    type = "S"
+  }
+
+  tags = {
+  Name        = "DinamoDB"
+  Environment = "Dev"
+  Owner = "Matheus"
   }
 }
