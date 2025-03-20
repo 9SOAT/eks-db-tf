@@ -28,6 +28,10 @@ jobs:
       with:
         terraform_version: 1.7.0
 
+    - name: Set environment variables
+      run: |
+          echo "TF_VAR_USERNAME=${{ secrets.USERNAME }}" >> $GITHUB_ENV
+
     - name: Terraform Init
       run: terraform -chdir=terraform init
 
