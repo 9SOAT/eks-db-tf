@@ -1,7 +1,7 @@
 variable "rdsUser" {
   description = "The username for the RDS instance"
   type        = string
-  default     = ${{ secrets.USERNAME }}
+  default     = var.USERNAME
 }
 
 variable "rdsPass" {
