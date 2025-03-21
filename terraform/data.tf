@@ -5,6 +5,6 @@ data "aws_vpc" "vpc" {
   }
 }
 
-data "aws_db_subnet_groups" "database" {
+data "aws_db_subnet_group" "database" {
   name = "fast-food-database-subnet-group"
 }
