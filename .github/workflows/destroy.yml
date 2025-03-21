@@ -3,6 +3,10 @@ name: Terraform Pipeline - Destroy RDS
 on:
   workflow_dispatch:  # Permite execução manual
 
+permissions:
+  id-token: write   # This is required for requesting the JWT
+  contents: read    # This is required for actions/checkout
+
 jobs:
   terraform:
     name: Terraform RDS Destruction
@@ -11,14 +15,15 @@ jobs:
     environment:
       name: production   # Proteção de ambiente configurada aqui!
 
-    env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_REGION: ${{ secrets.AWS_REGION }}
-
     steps:
-    - name: Checkout code
+    - name: Checkout
       uses: actions/checkout@v4
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: ${{ secrets.AWS_ROLE }}
+        aws-region: ${{ env.AWS_REGION }}
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
