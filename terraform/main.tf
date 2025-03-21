@@ -48,11 +48,6 @@ resource "aws_dynamodb_table" "users" {
     type = "S"
   }
 
-  attribute {
-    name = "consumer_id"
-    type = "N"
-  }
-
   tags = {
   Name        = "DinamoDB"
   Environment = "Dev"
