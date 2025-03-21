@@ -5,10 +5,6 @@ data "aws_vpc" "vpc" {
   }
 }
 
-data "aws_db_subnet_group" "database" {
+data "aws_db_subnet_groups" "database" {
   name = "fast-food-database-subnet-group"
-  filter {
-    name = "tag:Name"
-    values = ["fast-food-database-subnet-group"]
-  }
 }
