@@ -1,7 +1,7 @@
 data "aws_vpc" "vpc" {
   filter {
-    name = "tag:Team"
-    values = ["fast_food"]
+    name = "tag:Name"
+    values = ["fast-food-vpc"]
   }
 }
 

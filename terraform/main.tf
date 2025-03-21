@@ -1,4 +1,3 @@
-
 resource "aws_security_group" "rds_security_group_fast_food" {
   vpc_id = data.aws_vpc.vpc.id
   name = "fast-food-rds-security-group"
