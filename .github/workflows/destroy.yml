@@ -33,9 +33,6 @@ jobs:
     - name: Terraform Init
       run: terraform -chdir=terraform init
 
-    - name: Terraform Plan (Destroy)
-      run: terraform -chdir=terraform plan -destroy -out=tfplan
-
     # A pipeline vai pausar até você aprovar manualmente a destruição
     - name: Terraform Destroy
       run: terraform -chdir=terraform apply -auto-approve tfplan
