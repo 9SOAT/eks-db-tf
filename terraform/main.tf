@@ -1,86 +1,38 @@
-resource "aws_vpc" "labFIAP" {
-  cidr_block = "10.0.0.0/16"
-
-  tags = {
-    Name        = "labFIAPVPC"
-    Environment = "Dev"
-    Owner = "Matheus"
-  }
+resource "aws_security_group" "rds_security_group_fast_food" {
+  vpc_id = data.aws_vpc.vpc.id
+  name = "fast-food-rds-security-group"
 }
 
-resource "aws_subnet" "publiclabFIAP" {
-  vpc_id                  = aws_vpc.labFIAP.id
-  cidr_block              = "10.0.1.0/24"
-  map_public_ip_on_launch = true
-  availability_zone       = "us-east-2a"
 
-  tags = {
-    Name        = "PublicSubnet"
-    Environment = "Dev"
-    Owner = "Matheus"
-  }
+resource "aws_vpc_security_group_egress_rule" "rds_allow_all_traffic_ipv4" {
+  security_group_id = aws_security_group.rds_security_group_fast_food.id
+  cidr_ipv4         = "0.0.0.0/0"
+  ip_protocol       = "-1"
 }
 
-resource "aws_subnet" "privatelabFIAP" {
-  vpc_id            = aws_vpc.labFIAP.id
-  cidr_block        = "10.0.2.0/24"
-  availability_zone = "us-east-2b"
-
-  tags = {
-    Name        = "PrivateSubnet"
-    Environment = "Dev"
-    Owner = "Matheus"
-  }
+resource "aws_vpc_security_group_ingress_rule" "rds_allow_http_ipv4" {
+  security_group_id = aws_security_group.rds_security_group_fast_food.id
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 5432
+  ip_protocol       = "tcp"
+  to_port           = 5432
 }
 
-resource "aws_security_group" "rds_sglabFIAP" {
-  vpc_id = aws_vpc.labFIAP.id
 
-  ingress {
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name        = "RDS-SG"
-    Environment = "Dev"
-    Owner = "Matheus"
-  }
-}
-
-resource "aws_db_subnet_group" "rds_subnet_grouplabFIAP" {
-  name       = "rds-subnet-group"
-  subnet_ids = [aws_subnet.privatelabFIAP.id, aws_subnet.publiclabFIAP.id]
-
-  tags = {
-    Name        = "RDS-Subnet-Group"
-    Environment = "Dev"
-    Owner = "Matheus"
-  }
-}
-
-resource "aws_db_instance" "postgreslabFIAP" {
+resource "aws_db_instance" "rds_postgres_fast_food" {
   identifier              = "postgres-cluster"
   allocated_storage       = 20
   engine                  = "postgres"
   engine_version          = "16.5"
   instance_class          = "db.t3.micro"
   storage_type            = "gp2"
-  db_name                 = var.projectName 
+  db_name                 = var.projectName
   username                = var.rdsUser
   password                = var.rdsPass
-  publicly_accessible     = false
+  publicly_accessible     = true
   skip_final_snapshot     = true
-  vpc_security_group_ids  = [aws_security_group.rds_sglabFIAP.id]
-  db_subnet_group_name    = aws_db_subnet_group.rds_subnet_grouplabFIAP.name
-
-  tags = {
-    Name        = "PostgresDB"
-    Environment = "Dev"
-    Owner = "Matheus"
-  }
+  vpc_security_group_ids  = [aws_security_group.rds_security_group_fast_food.id]
+  db_subnet_group_name    = data.aws_db_subnet_group.database.name
 }
 
 resource "aws_dynamodb_table" "users" {
@@ -93,11 +45,6 @@ resource "aws_dynamodb_table" "users" {
   attribute {
     name = "cpf"
     type = "S"
-  }
-
-  attribute {
-    name = "consumer_id"
-    type = "N"
   }
 
   tags = {

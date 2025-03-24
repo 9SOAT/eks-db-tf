@@ -29,3 +29,5 @@ override.tf.json
 
 # Arquivos de configuração local
 terrafor
+
+.idea
