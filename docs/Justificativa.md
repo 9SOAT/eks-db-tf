@@ -23,6 +23,20 @@ Este banco de dados foi projetado para gerenciar um sistema de controle de pedid
 
 ---
 
+## DynamoDB para a autenticação do usuário com Lambda
+
+### Justificativa:
+Optamos por utilizar o AWS DynamoDB como banco de dados para armazenar o CPF e o ID do usuário devido a uma série de vantagens que se alinham com os requisitos do nosso caso de uso:
+
+- O DynamoDB oferece consultas extremamente rápidas, o que é ideal para operações de leitura frequente como a autenticação de usuários por CPF. Isso garante uma experiência rápida e eficiente para o usuário final.
+- Por ser um serviço gerenciado, o DynamoDB elimina a necessidade de manutenção de servidores ou preocupações com escalabilidade. Isso é especialmente vantajoso em ambientes serverless com API Gateway e AWS Lambda, onde a demanda pode variar bastante.
+- O acesso ao dado de autenticação é feito diretamente por CPF, o que se encaixa perfeitamente com o modelo de chave-partição do DynamoDB. Isso permite consultas diretas, sem necessidade de índices complexos ou joins.
+- O DynamoDB se integra de forma simples e eficiente com funções Lambda, possibilitando uma arquitetura totalmente serverless, de fácil manutenção e baixo custo operacional.
+- O DynamoDB distribui automaticamente os dados em múltiplas zonas de disponibilidade, garantindo resiliência e alta disponibilidade sem necessidade de configuração adicional.
+- Com o uso de políticas do IAM, é possível restringir o acesso aos dados sensíveis (como o CPF), garantindo conformidade com práticas de segurança e privacidade.
+
+---
+
 ## Justificativa do Design
 
 ### Normalização:
