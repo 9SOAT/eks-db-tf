@@ -23,7 +23,7 @@ Este banco de dados foi projetado para gerenciar um sistema de controle de pedid
 
 ---
 
-## Dynamo DB para a autenticação do usuário (Lambda e Dynamo)
+## DynamoDB para a autenticação do usuário com Lambda
 
 ### Justificativa:
 Optamos por utilizar o AWS DynamoDB como banco de dados para armazenar o CPF e o ID do usuário devido a uma série de vantagens que se alinham com os requisitos do nosso caso de uso:
