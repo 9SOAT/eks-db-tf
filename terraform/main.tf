@@ -35,7 +35,7 @@ resource "aws_db_instance" "rds_postgres_fast_food" {
   db_subnet_group_name    = data.aws_db_subnet_group.database.name
 }
 
-resource "aws_dynamodb_table" "users" {
+resource "aws_dynamodb_table" "consumer" {
   name           = var.dynamoName
   billing_mode   = "PROVISIONED"
   read_capacity  = 20
