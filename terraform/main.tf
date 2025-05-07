@@ -35,6 +35,17 @@ resource "aws_db_instance" "rds_postgres_fast_food" {
   db_subnet_group_name    = data.aws_db_subnet_group.database.name
 }
 
+resource "null_resource" "create_additional_databases" {
+  depends_on = [aws_db_instance.rds_postgres_fast_food]
+
+  provisioner "local-exec" {
+    command = <<EOT
+      PGPASSWORD=${var.rdsPass} psql -h ${aws_db_instance.rds_postgres_fast_food.address} -U ${var.rdsUser} -d ${var.projectName} -c "CREATE DATABASE clientes;"
+      PGPASSWORD=${var.rdsPass} psql -h ${aws_db_instance.rds_postgres_fast_food.address} -U ${var.rdsUser} -d ${var.projectName} -c "CREATE DATABASE pedidos;"
+    EOT
+  }
+}
+
 resource "aws_dynamodb_table" "users" {
   name           = var.dynamoName
   billing_mode   = "PROVISIONED"
