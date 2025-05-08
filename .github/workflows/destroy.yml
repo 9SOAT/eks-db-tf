@@ -14,6 +14,13 @@ jobs:
     defaults:
       run:
         working-directory: ./env/homolog
+    env:
+      MONGODB_ATLAS_PUBLIC_KEY: ${{ secrets.MONGODB_ATLAS_PUBLIC_KEY }}
+      MONGODB_ATLAS_PRIVATE_KEY: ${{ secrets.MONGODB_ATLAS_PRIVATE_KEY }}
+      TF_VAR_projectName: ${{ secrets.DB_NAME }}
+      TF_VAR_rdsUser: ${{ secrets.USERNAME }}
+      TF_VAR_rdsPass: ${{ secrets.PASSWORD }}
+      TF_VAR_dynamoName: ${{ secrets.DB_NAME_DY }}
     environment:
       name: production   # Proteção de ambiente configurada aqui!
 
@@ -31,13 +38,6 @@ jobs:
       uses: hashicorp/setup-terraform@v3
       with:
         terraform_version: 1.7.0
-
-    - name: Set environment variables
-      run: |
-        echo "TF_VAR_projectName=${{ secrets.DB_NAME }}" >> $GITHUB_ENV  
-        echo "TF_VAR_rdsUser=${{ secrets.USERNAME }}" >> $GITHUB_ENV
-        echo "TF_VAR_rdsPass=${{ secrets.PASSWORD }}" >> $GITHUB_ENV
-        echo "TF_VAR_dynamoName=${{ secrets.DB_NAME_DY }}" >> $GITHUB_ENV
 
     - name: Terraform Init
       run: terraform -chdir=terraform init
