@@ -1,8 +1,5 @@
 module "main" {
   source = "../../infra/v1"
-  dynamoName = "user"
-  rdsPass    = "Mudar123!"
-  rdsUser    = "admin"
 }
 
 output "rds_endpoint" {
