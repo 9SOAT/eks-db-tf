@@ -31,4 +31,5 @@ resource "aws_db_instance" "rds_postgres_fast_food" {
   skip_final_snapshot     = true
   vpc_security_group_ids  = [aws_security_group.rds_security_group_fast_food.id]
   db_subnet_group_name    = data.aws_db_subnet_group.db_subnet.name
+  backup_retention_period = 5
 }
