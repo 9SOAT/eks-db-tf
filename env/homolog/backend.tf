@@ -4,7 +4,5 @@ terraform {
     key            = "database/terraform.tfstate"
     region         = "us-east-1"
     encrypt        = true
-    # TODO: Remover profile
-    profile = "fast_food"
   }
 }

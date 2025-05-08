@@ -14,13 +14,4 @@ terraform {
 
 provider "aws" {
   region = "us-east-1" # Set the AWS region to US East (N. Virginia)
-
-  //TODO: Remover profile
-  profile = "fast_food"
-}
-
-//TODO: Remover credenciais
-provider "mongodbatlas" {
-  public_key = "xkxsyhog"
-  private_key  = "96915581-0bd0-405a-aa80-6627a37e41a5"
 }
