@@ -15,7 +15,7 @@ locals {
 }
 
 resource "aws_secretsmanager_secret" "mongo" {
-  name                    = "/${var.projectName}/mongo"
+  name                    = "/${var.projectName}-catalog/mongo"
   recovery_window_in_days = 0
 }
 

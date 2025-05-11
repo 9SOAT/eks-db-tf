@@ -8,7 +8,7 @@ resource "mongodbatlas_project" "mongodbatlas_project" {
 
 resource "mongodbatlas_cluster" "mongodbatlas_cluster" {
   project_id                  = mongodbatlas_project.mongodbatlas_project.id
-  name                        = "${var.projectName}-cluster"
+  name                        = "${replace(var.projectName, "_", "-")}-cluster"
   provider_name               = "TENANT"
   backing_provider_name       = "AWS"
   provider_region_name = upper(replace(var.awsRegion, "-", "_"))

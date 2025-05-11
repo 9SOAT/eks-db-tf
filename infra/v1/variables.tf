@@ -1,7 +1,7 @@
 variable "rdsUser" {
   description = "The username for the RDS instance"
   type        = string
-  default = "admin"
+  default = "testUser"
 }
 
 variable "rdsPass" {
