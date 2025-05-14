@@ -37,6 +37,15 @@ Optamos por utilizar o AWS DynamoDB como banco de dados para armazenar o CPF e o
 
 ---
 
+## MongoDB para catálogos de produtos
+
+### Justificativa:
+Optamos pelo MongoDB devido à sua flexibilidade de schema, que se adapta perfeitamente a cenários com estruturas de dados dinâmicas, como catálogos de produtos que se alinham com os requisitos do nosso caso de uso:
+
+- Cada item pode ter atributos distintos — por exemplo, refrigerantes possuem volume (ml), enquanto hambúrgueres são vendidos por unidade com variações de montagem.
+- No MongoDB, cada documento é independente e armazena exatamente o que precisa, sem sobrecarga estrutural.
+---
+
 ## Justificativa do Design
 
 ### Normalização:
@@ -48,9 +57,6 @@ Optamos por utilizar o AWS DynamoDB como banco de dados para armazenar o CPF e o
 - **Orders → Payment**: Cada pedido tem um pagamento único.
 - **Cart → Cart_Item**: Um carrinho pode ter vários itens.
 - **Cart_Item → Product**: Cada item do carrinho está vinculado a um produto.
-- **Orders → Order_Item**: Um pedido pode ter múltiplos itens.
-- **Order_Item → Product**: Cada item do pedido refere-se a um produto.
-- **Product → Product_Images**: Cada produto pode ter múltiplas imagens.
 - **Payment → Webhook_Payment**: O histórico do status dos pagamentos.
 
 ### Uso de Índices:
@@ -71,8 +77,6 @@ Optamos por utilizar o AWS DynamoDB como banco de dados para armazenar o CPF e o
 2. **Orders**: Registra os pedidos feitos pelos consumidores.
 3. **Cart**: Gerencia os carrinhos de compras.
 4. **Cart_Item**: Itens presentes no carrinho.
-5. **Product**: Dados dos produtos disponíveis.
 6. **Order_Item**: Itens associados a um pedido.
 7. **Payment**: Informações de pagamento dos pedidos.
-8. **Product_Images**: Imagens relacionadas aos produtos.
 9. **Webhook_Payment**: Histórico de status dos pagamentos.
