@@ -1,13 +1,11 @@
 variable "rdsUser" {
   description = "The username for the RDS instance"
   type        = string
-  default = "testUser"
 }
 
 variable "rdsPass" {
   description = "The password for the RDS instance"
   type        = string
-  default     = "Mudar123!"
 }
 
 variable "projectName" {
@@ -18,7 +16,6 @@ variable "projectName" {
 variable "dynamoName" {
   description = "The name of the DynamoDB table"
   type        = string
-  default     = "consumer"
 }
 
 variable "awsRegion" {
