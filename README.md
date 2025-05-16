@@ -1,7 +1,7 @@
 # Infraestrutura do Banco de Dados em PostgreSQL na AWS
 Este repositório contém uma infraestrutura como código (IaC) como parte da Fase 4 da Pós-tech em Software Architecture da FIAP. O projeto realiza a criação de um banco de dados PostgreSQL utilizando AWS RDS.
 ## ✳️ Sobre
-- [Justificativa](/docs/Justificativa.md)
+- [Justificativa](/docs/Justificativa.md) 
 ---
 
 ## Tecnologias Utilizadas
