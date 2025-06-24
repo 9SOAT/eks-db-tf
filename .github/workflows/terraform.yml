@@ -34,6 +34,13 @@ jobs:
         role-to-assume: ${{ secrets.AWS_ROLE }}
         aws-region: ${{ secrets.AWS_REGION }}
 
+    - name: Mostrar variáveis de ambiente
+      run: |
+        echo "AWS_ROLE = ${{ secrets.AWS_ROLE }}"
+        echo "AWS_REGION = $AWS_REGION"
+        echo "--- LISTA COMPLETA DE ENV ---"
+        env
+          
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
       with:
